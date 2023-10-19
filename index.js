@@ -9,17 +9,46 @@ app.use(
   })
 );
 
+function checkSignature(req) {
+  const signature = req.query.signature;
+  const timestamp = req.query.timestamp;
+  const nonce = req.query.nonce;
+
+  const token = process.env.TOKEN; // Assuming TOKEN is an environment variable
+  const tmpArr = [token, timestamp, nonce];
+  tmpArr.sort();
+  const tmpStr = tmpArr.join("");
+  const tmpStrSha1 = crypto.createHash("sha1").update(tmpStr).digest("hex");
+
+  if (tmpStrSha1 === signature) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+app.use((req, res, next) => {
+  if (checkSignature(req)) {
+    console.log("logged on Time:", Date.now());
+    console.log("req", req.body);
+    console.log("req", req.query);
+    console.log("res", res);
+    next();
+  } else {
+    res.send("unauthorized");
+  }
+});
+
 app.get("/", (req, res) => {
   console.log("it is a get request");
-  console.log("body", req);
-  res.send(`body: ${req.body}// req: ${req}`);
+  res.send(`body: ${req.body}`);
 });
 
 app.post("/", (req, res) => {
   console.log("it is a post request");
   console.log("body", req.body);
   console.log("body", req);
-  res.send(`body: ${req.body}// req: ${req}`);
+  res.send(`body: ${req.body}// req:`);
 });
 
 app.listen(port, () => {

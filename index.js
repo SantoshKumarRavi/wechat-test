@@ -31,9 +31,9 @@ function checkSignature(req) {
 
 app.use((req, res, next) => {
   console.log("logged on Time:", Date.now());
-  // console.log("req", req.body);
-  // console.log("req", req.query);
-  // console.log("res", res);
+  console.log("req", req.body);
+  console.log("req", req.query);
+  console.log("res", res);
   if (checkSignature(req)) {
     next();
   } else {

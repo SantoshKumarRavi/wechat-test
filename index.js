@@ -14,7 +14,7 @@ function checkSignature(req) {
   const timestamp = req.query.timestamp;
   const nonce = req.query.nonce;
 
-  const token = process.env.TOKEN; // Assuming TOKEN is an environment variable
+  const token = "abcabc"; // Assuming TOKEN is an environment variable
   const tmpArr = [token, timestamp, nonce];
   tmpArr.sort();
   const tmpStr = tmpArr.join("");
@@ -28,11 +28,11 @@ function checkSignature(req) {
 }
 
 app.use((req, res, next) => {
+  console.log("logged on Time:", Date.now());
+  console.log("req", req.body);
+  console.log("req", req.query);
+  console.log("res", res);
   if (checkSignature(req)) {
-    console.log("logged on Time:", Date.now());
-    console.log("req", req.body);
-    console.log("req", req.query);
-    console.log("res", res);
     next();
   } else {
     res.send("unauthorized");

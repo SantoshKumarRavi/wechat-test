@@ -2,8 +2,10 @@ const express = require("express");
 const crypto = require("crypto");
 const app = express();
 const cors = require("cors");
-const port = 80;
+const dotenv =require('dotenv')
 
+const port = 80;
+dotenv.config();
 app.use(
   cors({
     origin: "*",
@@ -14,8 +16,7 @@ function checkSignature(req) {
   const signature = req.query.signature;
   const timestamp = req.query.timestamp;
   const nonce = req.query.nonce;
-
-  const token = "abcabc"; // Assuming TOKEN is an environment variable
+  const token = process.env.TOKEN; // Assuming TOKEN is an environment variable
   const tmpArr = [token, timestamp, nonce];
   tmpArr.sort();
   const tmpStr = tmpArr.join("");
@@ -30,9 +31,9 @@ function checkSignature(req) {
 
 app.use((req, res, next) => {
   console.log("logged on Time:", Date.now());
-  console.log("req", req.body);
-  console.log("req", req.query);
-  console.log("res", res);
+  // console.log("req", req.body);
+  // console.log("req", req.query);
+  // console.log("res", res);
   if (checkSignature(req)) {
     next();
   } else {

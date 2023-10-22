@@ -11,7 +11,7 @@ const port = 80;
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(bodyParser.text({ type: 'text/xml' }));
+app.use(bodyParser.text({ type: 'application/xml' }));
 
 dotenv.config();
 app.use(
@@ -76,7 +76,7 @@ app.get("/", (req, res) => {
 app.post("/", (req, res) => {
   console.log("it is a post request");
   console.log("body", req.body);
-  console.log("body", req);
+  // console.log("body", req);
   //   req query {
   //       signature: '28dbd8a592d8473817501cdd63f04dcb8a3766d1',
   //       timestamp: '1697978063',

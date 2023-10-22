@@ -2,7 +2,7 @@ const express = require("express");
 const crypto = require("crypto");
 const app = express();
 const cors = require("cors");
-const dotenv =require('dotenv')
+const dotenv = require("dotenv");
 
 const port = 80;
 dotenv.config();
@@ -29,23 +29,26 @@ function checkSignature(req) {
   }
 }
 //ref https://stackoverflow.com/questions/37338249/wechat-sandbox-unable-to-configure-setting-url-and-token
-app.get('/wechat', function(req, res) {
+app.get("/wechat", function (req, res) {
+  console.log("GET in wechat");
   res.send(req.query.echostr);
-})
+});
 
 app.use((req, res, next) => {
   console.log("logged on Time:", Date.now());
-  console.log("req", req.body);
-  console.log("req", req.query);
-  console.log("res", res);
+  console.log("req body", req.body);
+  console.log("req query", req.query);
+  console.log("req method", req.method);
   if (checkSignature(req)) {
+    console.log("confirmed");
     next();
   } else {
+    console.log("un_confirmed");
     res.send("unauthorized");
   }
 });
 
-function createMockXml(){
+function createMockXml() {
   const date = Date.now();
   const response = `<xml>
   <ToUserName><![CDATA[toUser]]></ToUserName>
@@ -54,7 +57,7 @@ function createMockXml(){
   <MsgType><![CDATA[text]]></MsgType>
   <Content><![CDATA[Hello]]></Content>
 </xml>`;
-return response
+  return response;
 }
 app.get("/", (req, res) => {
   console.log("it is a get request");

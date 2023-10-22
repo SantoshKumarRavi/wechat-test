@@ -52,14 +52,14 @@ app.use((req, res, next) => {
 });
 
 function createMockXml(fromUser) {
-  const date = Date.now();
+  const date =   parseInt(Date.now()/1000)
   console.log("process.env.TOUSER",process.env.TOUSER)
   const response = `<xml>
   <ToUserName><![CDATA[${fromUser}]]></ToUserName>
   <FromUserName><![CDATA[${process.env.TOUSER}]]></FromUserName>
   <CreateTime>${date}</CreateTime>
   <MsgType><![CDATA[text]]></MsgType>
-  <Content><![CDATA[Hello test]]></Content>
+  <Content><![CDATA[Hello]]></Content>
 </xml>`;
   return response;
 }

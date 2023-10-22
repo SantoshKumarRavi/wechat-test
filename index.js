@@ -87,6 +87,7 @@ app.post("/", (req, res) => {
 
   console.log("req.read()", req.read());
   res.set('Content-Type', 'text/xml');
+  res.type('application/xml');
   res.send(createMockXml(req.query.openid));
 });
 

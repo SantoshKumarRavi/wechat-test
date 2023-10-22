@@ -3,13 +3,14 @@ const crypto = require("crypto");
 const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
-const bodyParser = require('body-parser')
+const bodyParser = require("body-parser");
+// const { toXML } = require("jstoxml");
 
 const port = 80;
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 dotenv.config();
 app.use(
@@ -55,8 +56,8 @@ app.use((req, res, next) => {
 });
 
 function createMockXml(fromUser) {
-  const date =   parseInt(Date.now()/1000)
-  console.log("process.env.TOUSER",process.env.TOUSER)
+  const date = parseInt(Date.now() / 1000);
+  console.log("process.env.TOUSER", process.env.TOUSER);
   const response = `<xml>
   <ToUserName><![CDATA[${fromUser}]]></ToUserName>
   <FromUserName><![CDATA[${process.env.TOUSER}]]></FromUserName>
@@ -83,7 +84,9 @@ app.post("/", (req, res) => {
   //       encrypt_type: 'aes',
   //       msg_signature: 'e745125a6c20e33836ee75c68bf2787310bf6809'
   //     }
+
   console.log("req.read()", req.read());
+  res.set('Content-Type', 'application/xml');
   res.send(createMockXml(req.query.openid));
 });
 

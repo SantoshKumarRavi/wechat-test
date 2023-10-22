@@ -51,14 +51,14 @@ app.use((req, res, next) => {
   }
 });
 
-function createMockXml() {
+function createMockXml(fromUser) {
   const date = Date.now();
   const response = `<xml>
-  <ToUserName><![CDATA[toUser]]></ToUserName>
-  <FromUserName><![CDATA[fromUser]]></FromUserName>
+  <ToUserName><![CDATA[${process.env.TOUSER}]]></ToUserName>
+  <FromUserName><![CDATA[${fromUser}]]></FromUserName>
   <CreateTime>${date}</CreateTime>
   <MsgType><![CDATA[text]]></MsgType>
-  <Content><![CDATA[Hello]]></Content>
+  <Content><![CDATA[Hello test]]></Content>
 </xml>`;
   return response;
 }
@@ -71,7 +71,16 @@ app.post("/", (req, res) => {
   console.log("it is a post request");
   console.log("body", req.body);
   console.log("body", req);
-  res.send(createMockXml());
+  //   req query {
+  //       signature: '28dbd8a592d8473817501cdd63f04dcb8a3766d1',
+  //       timestamp: '1697978063',
+  //       nonce: '1067812682',
+  //       openid: 'o4TP_6mVou0U-OTTM78dlV4g26Zc',
+  //       encrypt_type: 'aes',
+  //       msg_signature: 'e745125a6c20e33836ee75c68bf2787310bf6809'
+  //     }
+  console.log("req.read()", req.read());
+  res.send(createMockXml(req.query.openid));
 });
 
 app.listen(port, () => {

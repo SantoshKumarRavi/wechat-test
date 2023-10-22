@@ -5,3 +5,7 @@ _at=1697973753780
 
 1.may be due to ngrok
 2.checking with render backend deploy (separate domain)
+
+it initially makes a get request to confirm
+
+/?signature=5f83795d42827ea6ef00360fa08fb6f03a35d1a6&echostr=5606334732883529623&timestamp=1697974919&nonce=829157786

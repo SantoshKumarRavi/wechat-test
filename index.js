@@ -58,7 +58,7 @@ return response
 }
 app.get("/", (req, res) => {
   console.log("it is a get request");
-  res.send(createMockXml());
+  res.send(req.query.echostr);
 });
 
 app.post("/", (req, res) => {

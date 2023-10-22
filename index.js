@@ -53,6 +53,7 @@ app.use((req, res, next) => {
 
 function createMockXml(fromUser) {
   const date = Date.now();
+  console.log("process.env.TOUSER",process.env.TOUSER)
   const response = `<xml>
   <ToUserName><![CDATA[${process.env.TOUSER}]]></ToUserName>
   <FromUserName><![CDATA[${fromUser}]]></FromUserName>

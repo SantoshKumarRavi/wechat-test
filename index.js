@@ -55,8 +55,8 @@ function createMockXml(fromUser) {
   const date = Date.now();
   console.log("process.env.TOUSER",process.env.TOUSER)
   const response = `<xml>
-  <ToUserName><![CDATA[${process.env.TOUSER}]]></ToUserName>
-  <FromUserName><![CDATA[${fromUser}]]></FromUserName>
+  <ToUserName><![CDATA[${fromUser}]]></ToUserName>
+  <FromUserName><![CDATA[${process.env.TOUSER}]]></FromUserName>
   <CreateTime>${date}</CreateTime>
   <MsgType><![CDATA[text]]></MsgType>
   <Content><![CDATA[Hello test]]></Content>

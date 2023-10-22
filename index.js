@@ -3,11 +3,14 @@ const crypto = require("crypto");
 const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
+const bodyParser = require('body-parser')
 
 const port = 80;
-// Middleware to parse JSON and URL-encoded data
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
+
 dotenv.config();
 app.use(
   cors({

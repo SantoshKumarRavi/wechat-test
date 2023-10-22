@@ -4,17 +4,13 @@ const app = express();
 const cors = require("cors");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
-// const { toXML } = require("jstoxml");
 
 require("body-parser-xml")(bodyParser);
 
 const port = 80;
 
 // parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
 app.use(bodyParser.xml());
-// app.use(bodyParser.text({ type: 'application/xml' }));
 
 dotenv.config();
 app.use(
@@ -91,7 +87,6 @@ app.post("/", (req, res) => {
 
   console.log("req.read()", req.read());
   res.set("Content-Type", "application/xml");
-  res.type("application/xml");
   res.send(createMockXml(req.query.openid));
 });
 

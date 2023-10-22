@@ -28,6 +28,10 @@ function checkSignature(req) {
     return false;
   }
 }
+//ref https://stackoverflow.com/questions/37338249/wechat-sandbox-unable-to-configure-setting-url-and-token
+app.get('/wechat', function(req, res) {
+  res.send(req.query.echostr);
+})
 
 app.use((req, res, next) => {
   console.log("logged on Time:", Date.now());
@@ -41,16 +45,27 @@ app.use((req, res, next) => {
   }
 });
 
+function createMockXml(){
+  const date = Date.now();
+  const response = `<xml>
+  <ToUserName><![CDATA[toUser]]></ToUserName>
+  <FromUserName><![CDATA[fromUser]]></FromUserName>
+  <CreateTime>${date}</CreateTime>
+  <MsgType><![CDATA[text]]></MsgType>
+  <Content><![CDATA[Hello]]></Content>
+</xml>`;
+return response
+}
 app.get("/", (req, res) => {
   console.log("it is a get request");
-  res.send(`body: ${req.body}`);
+  res.send(createMockXml());
 });
 
 app.post("/", (req, res) => {
   console.log("it is a post request");
   console.log("body", req.body);
   console.log("body", req);
-  res.send(`body: ${req.body}// req:`);
+  res.send(createMockXml());
 });
 
 app.listen(port, () => {

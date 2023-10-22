@@ -55,12 +55,12 @@ app.use((req, res, next) => {
   }
 });
 
-function createMockXml(fromUser) {
+function createMockXml(fromUser, toUserName) {
   const date = parseInt(Date.now() / 1000);
   console.log("process.env.TOUSER", process.env.TOUSER);
   const response = `<xml>
   <ToUserName><![CDATA[${fromUser}]]></ToUserName>
-  <FromUserName><![CDATA[${process.env.TOUSER}]]></FromUserName>
+  <FromUserName><![CDATA[${toUserName}]]></FromUserName>
   <CreateTime>${date}</CreateTime>
   <MsgType><![CDATA[text]]></MsgType>
   <Content><![CDATA[Hello]]></Content>
@@ -75,6 +75,9 @@ app.get("/", (req, res) => {
 app.post("/", (req, res) => {
   console.log("it is a post request");
   console.log("body", req.body);
+  const {
+    xml: { ToUserName, FromUserName, MsgType, Content, MsgId },
+  } = req.body;
   // console.log("body", req);
   //   req query {
   //       signature: '28dbd8a592d8473817501cdd63f04dcb8a3766d1',
@@ -85,9 +88,8 @@ app.post("/", (req, res) => {
   //       msg_signature: 'e745125a6c20e33836ee75c68bf2787310bf6809'
   //     }
 
-  console.log("req.read()", req.read());
   res.set("Content-Type", "application/xml");
-  res.send(createMockXml(req.query.openid));
+  res.send(createMockXml(FromUserName, ToUserName));
 });
 
 app.listen(port, () => {

@@ -87,7 +87,7 @@ app.post("/", (req, res) => {
   //       msg_signature: 'e745125a6c20e33836ee75c68bf2787310bf6809'
   //     }
 
-  res.set("Content-Type", "text/xml");
+  res.set("Content-Type", "application/xml");
   const chunks = [
     "Node.js body ",
     "parsing middleware. ",

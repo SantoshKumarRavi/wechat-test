@@ -88,7 +88,7 @@ app.post("/", (req, res) => {
 
   res.set("Content-Type", "application/xml");
 
-  chunks.forEach((text) => {
+  ["chunks","hi","vanakam"].forEach((text) => {
     res.write(createMockXml(FromUserName, ToUserName, text));
   });
 

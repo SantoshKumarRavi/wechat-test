@@ -78,7 +78,6 @@ app.post("/", (req, res) => {
   const {
     xml: { ToUserName, FromUserName, MsgType, Content, MsgId },
   } = req.body;
-  // console.log("body", req);
   //   req query {
   //       signature: '28dbd8a592d8473817501cdd63f04dcb8a3766d1',
   //       timestamp: '1697978063',
@@ -89,7 +88,12 @@ app.post("/", (req, res) => {
   //     }
 
   res.set("Content-Type", "application/xml");
-  res.send(createMockXml(FromUserName, ToUserName));
+  res.setHeader('Transfer-Encoding', 'chunked');
+  for (let index = 0; index < 10; index++) {
+    res.write(createMockXml(FromUserName, ToUserName));
+  }
+  res.end();
+  // res.send(createMockXml(FromUserName, ToUserName));
 });
 
 app.listen(port, () => {

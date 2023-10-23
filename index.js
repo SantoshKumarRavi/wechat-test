@@ -55,15 +55,14 @@ app.use((req, res, next) => {
   }
 });
 
-function createMockXml(fromUser, toUserName) {
+function createMockXml(fromUser, toUserName, text) {
   const date = parseInt(Date.now() / 1000);
-  console.log("process.env.TOUSER", process.env.TOUSER);
   const response = `<xml>
   <ToUserName><![CDATA[${fromUser}]]></ToUserName>
   <FromUserName><![CDATA[${toUserName}]]></FromUserName>
   <CreateTime>${date}</CreateTime>
   <MsgType><![CDATA[text]]></MsgType>
-  <Content><![CDATA[Hello]]></Content>
+  <Content><![CDATA[${text}]]></Content>
 </xml>`;
   return response;
 }
@@ -88,24 +87,10 @@ app.post("/", (req, res) => {
   //     }
 
   res.set("Content-Type", "application/xml");
-  const chunks = [
-    "Node.js body ",
-    "parsing middleware. ",
-    "Parse incoming ",
-    "request bodies ",
-    "in a middleware ",
-    "before your handlers, ",
-    "available under ",
-    "the req.body property."
-  ];
-  res.write('<xml>');
-  res.write('<ToUserName><![CDATA[' + FromUserName + ']]></ToUserName>');
-  res.write('<FromUserName><![CDATA[' + ToUserName + ']]></FromUserName>');
-  res.write('<CreateTime>' + Math.floor(Date.now() / 1000) + '</CreateTime>');
-  res.write('<MsgType><![CDATA[text]]></MsgType>');
-  chunks.forEach((text)=>{
-    res.write('<Content><![CDATA[' + text + ']]></Content>');
-  })
+
+  chunks.forEach((text) => {
+    res.write(createMockXml(FromUserName, ToUserName, text));
+  });
 
   res.end();
   // res.send(createMockXml(FromUserName, ToUserName));

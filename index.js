@@ -62,7 +62,8 @@ function createMockXml(fromUser, toUserName) {
   <FromUserName><![CDATA[${toUserName}]]></FromUserName>
   <CreateTime>${date}</CreateTime>
   <MsgType><![CDATA[text]]></MsgType>
-  <Content><![CDATA[This is 10 seconds delayed response]]></Content>
+  <Content><![CDATA[This is auto response 1]]></Content>
+  <Content><![CDATA[This is auto response 2]]></Content>
 </xml>`;
   return response;
 }
@@ -87,9 +88,8 @@ app.post("/", (req, res) => {
   //     }
 
   res.set("Content-Type", "application/xml");
-  setTimeout(()=>{
-    res.send(createMockXml(FromUserName, ToUserName));
-  },10000)
+  res.send(createMockXml(FromUserName, ToUserName));
+  
 
 });
 

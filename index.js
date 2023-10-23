@@ -87,11 +87,26 @@ app.post("/", (req, res) => {
   //       msg_signature: 'e745125a6c20e33836ee75c68bf2787310bf6809'
   //     }
 
-  res.set("Content-Type", "application/xml");
-  res.setHeader('Transfer-Encoding', 'chunked');
-  for (let index = 0; index < 10; index++) {
-    res.write(createMockXml(FromUserName, ToUserName));
-  }
+  res.set("Content-Type", "text/xml");
+  const chunks = [
+    "Node.js body ",
+    "parsing middleware. ",
+    "Parse incoming ",
+    "request bodies ",
+    "in a middleware ",
+    "before your handlers, ",
+    "available under ",
+    "the req.body property."
+  ];
+  res.write('<xml>');
+  res.write('<ToUserName><![CDATA[' + FromUserName + ']]></ToUserName>');
+  res.write('<FromUserName><![CDATA[' + ToUserName + ']]></FromUserName>');
+  res.write('<CreateTime>' + Math.floor(Date.now() / 1000) + '</CreateTime>');
+  res.write('<MsgType><![CDATA[text]]></MsgType>');
+  chunks.forEach((text)=>{
+    res.write('<Content><![CDATA[' + text + ']]></Content>');
+  })
+
   res.end();
   // res.send(createMockXml(FromUserName, ToUserName));
 });

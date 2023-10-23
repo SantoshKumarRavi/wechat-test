@@ -55,14 +55,14 @@ app.use((req, res, next) => {
   }
 });
 
-function createMockXml(fromUser, toUserName, text) {
+function createMockXml(fromUser, toUserName) {
   const date = parseInt(Date.now() / 1000);
   const response = `<xml>
   <ToUserName><![CDATA[${fromUser}]]></ToUserName>
   <FromUserName><![CDATA[${toUserName}]]></FromUserName>
   <CreateTime>${date}</CreateTime>
   <MsgType><![CDATA[text]]></MsgType>
-  <Content><![CDATA[${text}]]></Content>
+  <Content><![CDATA[This is 10 seconds delayed response]]></Content>
 </xml>`;
   return response;
 }
@@ -87,13 +87,10 @@ app.post("/", (req, res) => {
   //     }
 
   res.set("Content-Type", "application/xml");
+  setTimeout(()=>{
+    res.send(createMockXml(FromUserName, ToUserName));
+  },10000)
 
-  ["chunks","hi","vanakam"].forEach((text) => {
-    res.write(createMockXml(FromUserName, ToUserName, text));
-  });
-
-  res.end();
-  // res.send(createMockXml(FromUserName, ToUserName));
 });
 
 app.listen(port, () => {
